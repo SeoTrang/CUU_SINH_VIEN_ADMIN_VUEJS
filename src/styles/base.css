@@ -1,0 +1,41 @@
+.avatar-common img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.avatar-common-post img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.router {
+  color: #212b36;
+}
+
+.common-word {
+  color: #212b36 !important;
+}
+.blur-word {
+  color: #637381 !important;
+}
+
+.blur-md-word {
+  color: #919eab !important;
+}
+
+.dots {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgb(145, 158, 171);
+}
+
+.bg-btn-green {
+  background-color: rgba(34, 197, 94, 0.24);
+}
+
+.color-btn-green {
+  color: rgb(34, 197, 94);
+}

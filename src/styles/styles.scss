@@ -1,0 +1,46 @@
+// Write your overrides
+.box-container {
+    font-size: 0.875rem;
+}
+
+.layout-nav-type-vertical .layout-vertical-nav .nav-link > .router-link-exact-active{
+    background-color: #34d3994d !important;
+    color: rgb(4 120 87);
+}
+
+#users-page .filter-1 .leading-none {
+    line-height: 1.5 !important;
+  }
+
+
+
+.layout-nav-type-vertical .layout-vertical-nav .nav-link .router-link-exact-active::after, .layout-nav-type-vertical .layout-vertical-nav .nav-group.active:not(.nav-group .nav-group) > :first-child::after {
+    position: absolute;
+    background-color: #34d3994d !important;
+    block-size: 2.625rem;
+    border-end-start-radius: 0.375rem;
+    border-start-start-radius: 0.375rem;
+    content: "";
+    inline-size: 0.25rem;
+    inset-inline-end: -1rem;
+}
+
+
+.app-logo svg{
+    color: #13c391;
+}
+
+.content-table .action-item{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+
+}
+
+.content-table .action-item:hover{
+    background-color: rgb(99 115 129 / 8%);
+}
