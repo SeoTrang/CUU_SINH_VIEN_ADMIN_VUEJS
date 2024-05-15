@@ -1,5 +1,22 @@
 <script setup>
-import avatar1 from '@images/avatars/avatar-1.png';
+import ProfileAPI from '@/services/api/ProfileAPI';
+import { ref } from 'vue';
+
+
+const api = import.meta.env.VITE_API_URL; 
+const user = ref()
+
+const handleGetProfile = async () => {
+    let data = await ProfileAPI.getProfile();
+    if(data) user.value = data;
+
+}
+
+
+onMounted(() => {
+    handleGetProfile();
+})
+
 </script>
 
 <template>
@@ -16,7 +33,7 @@ import avatar1 from '@images/avatars/avatar-1.png';
       color="primary"
       variant="tonal"
     >
-      <VImg :src="avatar1" />
+      <VImg :src="api + user?.avatar" />
 
       <!-- SECTION Menu -->
       <VMenu
@@ -41,14 +58,14 @@ import avatar1 from '@images/avatars/avatar-1.png';
                     color="primary"
                     variant="tonal"
                   >
-                    <VImg :src="avatar1" />
+                    <VImg :src="api + user?.avatar" />
                   </VAvatar>
                 </VBadge>
               </VListItemAction>
             </template>
 
             <VListItemTitle class="font-weight-semibold text-red-500">
-              John Doe
+              {{ user?.user_name }}
             </VListItemTitle>
             <VListItemSubtitle>Admin</VListItemSubtitle>
           </VListItem>
@@ -64,7 +81,7 @@ import avatar1 from '@images/avatars/avatar-1.png';
               />
             </template>
 
-            <VListItemTitle>Profile</VListItemTitle>
+            <VListItemTitle><router-link to="/account-settings">Tài khoản</router-link></VListItemTitle>
           </VListItem>
 
           <!-- 👉 Settings -->
@@ -72,16 +89,16 @@ import avatar1 from '@images/avatars/avatar-1.png';
             <template #prepend>
               <VIcon
                 class="me-2"
-                icon="bx-cog"
+                icon=" bx-lock-open"
                 size="22"
               />
             </template>
 
-            <VListItemTitle>Settings</VListItemTitle>
+            <VListItemTitle>Bảo mật</VListItemTitle>
           </VListItem>
 
           <!-- 👉 Pricing -->
-          <VListItem link>
+          <VListItem link disabled="true">
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -94,7 +111,7 @@ import avatar1 from '@images/avatars/avatar-1.png';
           </VListItem>
 
           <!-- 👉 FAQ -->
-          <VListItem link>
+          <VListItem link disabled="true">
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -119,7 +136,7 @@ import avatar1 from '@images/avatars/avatar-1.png';
               />
             </template>
 
-            <VListItemTitle>Logout</VListItemTitle>
+            <VListItemTitle>Đăng xuất</VListItemTitle>
           </VListItem>
         </VList>
       </VMenu>

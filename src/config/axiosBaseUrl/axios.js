@@ -4,7 +4,7 @@ import { accessToken } from '../../constant/constant';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const instance = axios.create({
-  baseURL: API_URL+'/admin', // Thay thế URL của bạn tại đây
+  baseURL: API_URL+'/api/admin/', // Thay thế URL của bạn tại đây
 });
 
 

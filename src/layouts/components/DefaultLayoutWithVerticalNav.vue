@@ -6,7 +6,6 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
 import { useTheme } from 'vuetify'
 
 // Components
-import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
 
@@ -105,11 +104,18 @@ const upgradeBanner = computed(() => {
       />
       <VerticalNavLink
         :item="{
+          title: 'Quản lí khoa',
+          icon: 'bx-book-bookmark',
+          to: '/faculty',
+        }"
+      />
+      <!-- <VerticalNavLink
+        :item="{
           title: 'Quản lí tỉnh thành',
           icon: 'bx-location-plus',
           to: '/provinces',
         }"
-      />
+      /> -->
       <VerticalNavLink
         :item="{
           title: 'Báo cáo và Phản hồi',
@@ -124,13 +130,13 @@ const upgradeBanner = computed(() => {
           to: '/',
         }"
       />
-      <VerticalNavLink
+      <!-- <VerticalNavLink
         :item="{
           title: 'Account Settings',
           icon: 'mdi-account-cog-outline',
           to: '/account-settings',
         }"
-      />
+      /> -->
 
       <!-- 👉 Pages -->
       <!-- <VerticalNavSectionTitle
@@ -138,27 +144,27 @@ const upgradeBanner = computed(() => {
           heading: 'Pages',
         }"
       /> -->
-      <VerticalNavLink
+      <!-- <VerticalNavLink
         :item="{
           title: 'Login',
           icon: 'bx-log-in',
           to: '/login',
         }"
-      />
-      <VerticalNavLink
+      /> -->
+      <!-- <VerticalNavLink
         :item="{
           title: 'Register',
           icon: 'bx-user-plus',
           to: '/register',
         }"
-      />
-      <VerticalNavLink
+      /> -->
+      <!-- <VerticalNavLink
         :item="{
           title: 'Error',
           icon: 'bx-info-circle',
           to: '/no-existence',
         }"
-      />
+      /> -->
 
       <!-- 👉 User Interface -->
       <!-- <VerticalNavSectionTitle
@@ -166,14 +172,14 @@ const upgradeBanner = computed(() => {
           heading: 'User Interface',
         }"
       /> -->
-      <VerticalNavLink
+      <!-- <VerticalNavLink
         :item="{
           title: 'Typography',
           icon: 'mdi-alpha-t-box-outline',
           to: '/typography',
         }"
-      />
-      <VerticalNavLink
+      /> -->
+      <!-- <VerticalNavLink
         :item="{
           title: 'Icons',
           icon: 'bx-show',
@@ -186,8 +192,8 @@ const upgradeBanner = computed(() => {
           icon: 'bx-credit-card',
           to: '/cards',
         }"
-      />
-      <VerticalNavLink
+      /> -->
+      <!-- <VerticalNavLink
         :item="{
           title: 'Tables',
           icon: 'bx-table',
@@ -200,7 +206,7 @@ const upgradeBanner = computed(() => {
           icon: 'mdi-form-select',
           to: '/form-layouts',
         }"
-      />
+      /> -->
     </template>
 
 
@@ -208,9 +214,9 @@ const upgradeBanner = computed(() => {
     <slot />
 
     <!-- 👉 Footer -->
-    <template #footer>
+    <!-- <template #footer>
       <Footer />
-    </template>
+    </template> -->
   </VerticalNavLayout>
 </template>
 

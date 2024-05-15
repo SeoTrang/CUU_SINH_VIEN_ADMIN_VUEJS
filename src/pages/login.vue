@@ -1,54 +1,85 @@
 <script setup>
-import AuthProvider from '@/views/pages/authentication/AuthProvider.vue';
-import logo from '@images/logo.svg?raw';
-import { ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-const router = useRouter()
-const route = useRoute()
+import AuthAPI from "@/services/api/AuthAPI";
+import store from "@/store/store";
+import AuthProvider from "@/views/pages/authentication/AuthProvider.vue";
+import logo from "@images/logo.svg?raw";
+import { useToast } from "primevue/usetoast";
+import { ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+const toast = useToast();
+
+const router = useRouter();
+const route = useRoute();
 
 const form = ref({
-  email: '',
-  password: '',
-})
+  email: "",
+  password: "",
+});
 
-const isPasswordVisible = ref(false)
+const isPasswordVisible = ref(false);
+
+const login = async () => {
+  console.log("hello");
+  let result = await AuthAPI.login(form.value.email, form.value.password);
+  console.log(result);
+  setTimeout(() => {
+    store.dispatch("stopLoading");
+  }, 500);
+  if (result == 200) {
+    toast.add({
+      severity: "success",
+      summary: "Thông báo ⚠️",
+      detail: "Đăng nhập thành công",
+      life: 3000,
+    });
+    return router.push("/dashboard");
+  } 
+  if(result == 403){
+    return toast.add({
+      severity: "error",
+      summary: "Thông báo ⚠️",
+      detail: "Tài khoản không có quyền truy cập",
+      life: 3000,
+    });
+  }
+
+    toast.add({
+      severity: "error",
+      summary: "Thông báo ⚠️",
+      detail: "Tài khoản hoặc mật khẩu không hợp lệ",
+      life: 3000,
+    });
+  
+};
 
 const handleLogin = () => {
   console.log(form.value.email);
   console.log(form.value.password);
-  // router.push('/')
-}
+  store.dispatch("startLoading");
+  login();
 
+  // router.push('/')
+};
+
+const visible = ref(false);
 </script>
 
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
-    <VCard
-      class="auth-card pa-4 pt-7"
-      max-width="448"
-    >
+    <VCard class="auth-card pa-4 pt-7" max-width="448">
       <VCardItem class="justify-center">
         <template #prepend>
           <div class="d-flex">
-            <div
-              class="d-flex text-primary"
-              v-html="logo"
-            />
+            <div class="d-flex text-primary" v-html="logo" />
           </div>
         </template>
 
-        <VCardTitle class="text-2xl font-weight-bold">
-          
-        </VCardTitle>
+        <VCardTitle class="text-2xl font-weight-bold"> </VCardTitle>
       </VCardItem>
 
       <VCardText class="pt-2">
-        <h5 class="text-h5 mb-1 text-center">
-          Cựu sinh viên! 👋🏻
-        </h5>
-        <p class="mb-0 text-center">
-          Nhập email và mật khẩu để đăng nhập
-        </p>
+        <h5 class="text-h5 mb-1 text-center">Cựu sinh viên! 👋🏻</h5>
+        <p class="mb-0 text-center">Nhập email và mật khẩu để đăng nhập</p>
       </VCardText>
 
       <VCardText>
@@ -92,44 +123,25 @@ const handleLogin = () => {
               </div> -->
 
               <!-- login button -->
-              <VBtn
-                block
-                type="submit"
-                class="mt-4"
-                @click = "handleLogin()"
-              >
-                Đăng nhập
-              </VBtn>
+              <VBtn block class="mt-4" @click="handleLogin()"> Đăng nhập </VBtn>
             </VCol>
 
             <!-- create account -->
-            <VCol
-              cols="12"
-              class="text-center text-base"
-            >
+            <VCol cols="12" class="text-center text-base">
               <span>Bạn quên mật khẩu?</span>
-              <RouterLink
-                class="text-primary ms-2"
-                to="/register"
-              >
+              <RouterLink class="text-primary ms-2" to="/register">
                 Lấy lại mật khẩu
               </RouterLink>
             </VCol>
 
-            <VCol
-              cols="12"
-              class="d-flex align-center"
-            >
+            <VCol cols="12" class="d-flex align-center">
               <VDivider />
               <span class="mx-4">or</span>
               <VDivider />
             </VCol>
 
             <!-- auth providers -->
-            <VCol
-              cols="12"
-              class="text-center"
-            >
+            <VCol cols="12" class="text-center">
               <AuthProvider />
             </VCol>
           </VRow>

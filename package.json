@@ -1,5 +1,5 @@
 {
-  "name": "sneat-vuetify-vuejs-admin-template",
+  "name": "admin-chat-zalo",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -40,7 +40,9 @@
     "vue-router": "^4.2.1",
     "vue3-apexcharts": "^1.4.1",
     "vue3-perfect-scrollbar": "^1.6.0",
+    "vue3-toastify": "^0.1.14",
     "vuetify": "3.3.1",
+    "vuex": "^4.1.0",
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {

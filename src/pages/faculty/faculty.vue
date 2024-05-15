@@ -2,7 +2,6 @@
 
 
 <script setup>
-import SchoolAPI from '@/services/api/SchoolAPI';
 import store from '@/store/store';
 import Avatar from 'primevue/avatar';
 import Column from 'primevue/column';
@@ -14,6 +13,7 @@ import Paginator from 'primevue/paginator';
 import TieredMenu from 'primevue/tieredmenu';
 import { onMounted, ref } from 'vue';
 
+import FacultyAPI from '@/services/api/FacultyAPI';
 import { useConfirm } from "primevue/useconfirm";
 import { useToast } from "primevue/usetoast";
 
@@ -49,7 +49,7 @@ const confirmDelete = () => {
 // import { PageEvent } from './interface/PageEvent.interface';
 
 
-const schools = ref();
+const faculties = ref();
 const visiableDialogUser = ref(false);
 
 const cities = ref([
@@ -83,21 +83,21 @@ const toggleMenu = (event) => {
 };
 
 
-const handleFetchSchoolData = async () => {
+const handleFetchFacultyData = async () => {
     store.dispatch('startLoading');
-    let result = await SchoolAPI.getAll();
+    let result = await FacultyAPI.getAll();
     setTimeout(() => {
       store.dispatch('stopLoading');
     }, 500);
 
     if(result.length > 0){
-        schools.value = result;
+        faculties.value = result;
     }
 
 }
 
 onMounted(() => {
-  handleFetchSchoolData();
+  handleFetchFacultyData();
 })
 
 
@@ -110,11 +110,11 @@ const onClick = (event, id) => {
     menu_table_action.value.show(event);
 };
 
-const handleAcceptSchool= async() => {
-    let result = await SchoolAPI.acceptSchool(itemTableselectedId.value);
+const handleAcceptFaculty= async() => {
+    let result = await FacultyAPI.acceptFaculty(itemTableselectedId.value);
     if(result >= 200 || result < 300) {
       toast.add({ severity: 'success', summary: 'Thông báo', detail: 'Thành công', life: 3000 });
-      handleFetchSchoolData();
+      handleFetchFacultyData();
     }
     else toast.add({ severity: 'error', summary: 'Thông báo', detail: 'Thất bại', life: 3000 });
 }
@@ -126,7 +126,7 @@ const itemMenuAction = ref([
         shortcut: '⌘+A',
         class: 'menu-confirm',
         command: () => {
-          handleAcceptSchool();
+          handleAcceptFaculty();
         }
     },
     {
@@ -146,20 +146,7 @@ const itemMenuAction = ref([
         command: () => {
           // console.log(itemTableselectedId);
           // console.log(conversations.value);
-          members_list.value = schools.value.filter(school => school.id == itemTableselectedId.value)
-          console.log(members_list.value);
-          visiableDialogUser.value = true;
-        }
-    },
-    {
-        label: 'Danh sách khoa',
-        icon: 'pi pi-book',
-        shortcut: '⌘+Z',
-        class: 'menu-view-2',
-        command: () => {
-          // console.log(itemTableselectedId);
-          // console.log(conversations.value);
-          members_list.value = schools.value.filter(school => school.id == itemTableselectedId.value)
+          members_list.value = faculties.value.filter(school => school.id == itemTableselectedId.value)
           console.log(members_list.value);
           visiableDialogUser.value = true;
         }
@@ -173,18 +160,18 @@ const itemMenuAction = ref([
 
 
 <style scoped>
-  @import './schools.css';
+  @import './faculty.css';
 </style>
 
 <template>
-    <div id="schools-page" class="box-container w-full pl-2 pr-2">
+    <div id="faculty-page" class="box-container w-full pl-2 pr-2">
       <div class="title flex justify-between font-medium items-center">
         <div class="title-left flex text-xl">
           <div class="icon">
             <i class="pi pi-fw pi-users" style="font-size: 1em; font-weight: 500;"></i>
           </div>
           <div class="text-value ml-1">
-            Sinh viên
+            Khoa
           </div>
         </div>
   
@@ -201,7 +188,7 @@ const itemMenuAction = ref([
         <div class="flex items-center">
           <span class="route-item">Trang chủ</span>
           <span class="dots ml-2 mr-2"></span>
-          <span class="route-item">Bài viết</span>
+          <span class="route-item">Khoa</span>
         </div>
       </div>
      
@@ -230,7 +217,7 @@ const itemMenuAction = ref([
           </div>
          
           <div class="content-table w-full">
-            <DataTable :value="schools" tableStyle="min-width: 60rem" >
+            <DataTable :value="faculties" tableStyle="min-width: 60rem" >
               <Column field="id" header="Mã" :sortable="true"></Column>
               <Column field="name" header="Tên" :sortable="true"></Column>
               <Column field="userCount" header="Thành viên" :sortable="true"></Column>

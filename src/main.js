@@ -11,9 +11,10 @@ import '@styles/styles.scss'
 import { createPinia } from 'pinia'
 import 'primeicons/primeicons.css'
 import PrimeVue from 'primevue/config'
-import 'primevue/resources/themes/aura-light-lime/theme.css'
-
+import ConfirmationService from 'primevue/confirmationservice'
 import Panel from "primevue/panel"
+import 'primevue/resources/themes/aura-light-lime/theme.css'
+import ToastService from 'primevue/toastservice'
 import { createApp } from 'vue'
 // import './index.css'
 import "./style.css"
@@ -36,5 +37,7 @@ app.use(PrimeVue, {
     unstyled: true,
     pt: Lara                            //apply preset        
 });
+app.use(ToastService);
+app.use(ConfirmationService);
 // Mount vue app
 app.mount('#app')
