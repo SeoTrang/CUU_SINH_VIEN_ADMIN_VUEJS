@@ -2,6 +2,7 @@
 
 
 <script setup>
+import AddressAPI from '@/services/api/AddressAPI';
 import SchoolAPI from '@/services/api/SchoolAPI';
 import store from '@/store/store';
 import Avatar from 'primevue/avatar';
@@ -23,6 +24,13 @@ import { useToast } from "primevue/usetoast";
 const api = import.meta.env.VITE_API_URL;
 const confirm = useConfirm();
 const toast = useToast();
+const visibleCreate = ref(false);
+const newSchoolCreate = ref();
+const menu_table_action = ref();
+const itemTableselectedId = ref(null);
+const members_list = ref([]);
+const schools = ref();
+const visiableDialogUser = ref(false);
 
 const confirmDelete = () => {
   confirm.require({
@@ -49,8 +57,7 @@ const confirmDelete = () => {
 // import { PageEvent } from './interface/PageEvent.interface';
 
 
-const schools = ref();
-const visiableDialogUser = ref(false);
+
 
 const cities = ref([
   { name: 'New York', code: 'NY' },
@@ -68,6 +75,9 @@ const menuItems = ref([
   { label: 'Xuất', icon: 'pi pi-file-export' }
 ]);
 
+const selectedAddress = ref();
+const dropdownAddress = ref([
+]);
 
 const firstItems = ref(0);
 const rowsItems = ref(10);
@@ -96,15 +106,28 @@ const handleFetchSchoolData = async () => {
 
 }
 
+const handleFetchAddressData = async () => {
+    store.dispatch('startLoading');
+    let result = await AddressAPI.getAll();
+    setTimeout(() => {
+      store.dispatch('stopLoading');
+    }, 500);
+
+    if(result.length > 0){
+        dropdownAddress.value = result;
+        
+    }
+
+}
+
 onMounted(() => {
   handleFetchSchoolData();
+  handleFetchAddressData();
 })
 
 
 
-const menu_table_action = ref();
-const itemTableselectedId = ref(null);
-const members_list = ref([]);
+
 const onClick = (event, id) => {
   itemTableselectedId.value = id;
     menu_table_action.value.show(event);
@@ -169,6 +192,30 @@ const itemMenuAction = ref([
     }
 ]);
 
+
+
+const handleSaveNewSchool = async () => {
+    console.log(newSchoolCreate.value);
+    console.log(selectedAddress.value);
+
+    if(!selectedAddress.value || newSchoolCreate.value.id) return toast.add({ severity: 'error',summary: 'Thông báo', detail: 'Vui lòng nhập đầy đủ dữ liệu', life: 3000 });
+    visibleCreate.value = false;
+
+    let dataSave = {
+      name: newSchoolCreate.value,
+      address_id: selectedAddress.value.id
+    }
+    console.log(dataSave);
+    let result = await SchoolAPI.create(dataSave);
+    if(result >= 200 && result < 300) {
+      handleFetchSchoolData();
+      return toast.add({ severity: 'success',summary: 'Thông báo', detail: 'Thêm thành công', life: 3000 });
+    }
+
+    toast.add({ severity: 'error',summary: 'Thông báo', detail: 'Thêm thất bại', life: 3000 });
+    
+}
+
 </script>
 
 
@@ -189,12 +236,12 @@ const itemMenuAction = ref([
         </div>
   
         <div class="title-right">
-          <router-link to="/manager/admin/create-student" class="no-underline hover:no-underline button-add text-white bg-black pt-2 pb-2 pl-2 pr-2 rounded-md cursor-pointer">
+          <div @click="visibleCreate = true" class="no-underline hover:no-underline button-add text-white bg-black pt-2 pb-2 pl-2 pr-2 rounded-md cursor-pointer">
             <i class="pi pi-plus"></i>
             <span>
               Thêm mới
             </span>
-          </router-link>
+          </div>
         </div>
       </div>
       <div class="router w-full text-sm mb-2 mt-2">
@@ -233,6 +280,13 @@ const itemMenuAction = ref([
             <DataTable :value="schools" tableStyle="min-width: 60rem" >
               <Column field="id" header="Mã" :sortable="true"></Column>
               <Column field="name" header="Tên" :sortable="true"></Column>
+              <Column field="address.name" header="Tỉnh" :sortable="true">
+                  <template #body="slotProps">
+                      <div>
+                        {{slotProps.data.address.name}}
+                      </div>
+                  </template>
+              </Column>
               <Column field="userCount" header="Thành viên" :sortable="true"></Column>
               <Column field="conversationCount" header="Hội nhóm" :sortable="true"></Column>
               <Column field="status" header="Trạng thái" :sortable="true">
@@ -297,10 +351,24 @@ const itemMenuAction = ref([
                 </div>
             </div>
           </div>
-          <div class="flex justify-content-end gap-2">
-              <Button type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
-              <Button type="button" label="Save" @click="visible = false"></Button>
-          </div>
+          
+          
       </Dialog>
+
+      <Dialog v-model:visible="visibleCreate" modal header="Thêm trường học mới" :style="{ width: '25rem' }">
+        
+            <div class="flex align-items-center gap-3 mb-3 mt-3">
+              <v-text-field v-model="newSchoolCreate" label="Tên trường" variant="outlined"></v-text-field>
+            </div>
+            <div class="flex align-items-center gap-3 mb-5">
+              <Dropdown v-model="selectedAddress" :options="dropdownAddress" optionLabel="name" placeholder="Tỉnh thành" class="w-full md:w-[14rem] pt-2 pb-2" />
+            </div>
+            
+            <div class="flex justify-end gap-2">
+                <Button type="button" label="Hủy" size="small" severity="secondary" @click="visibleCreate = false"></Button>
+                <Button type="button" label="Lưu lại" size="small" @click="handleSaveNewSchool()"></Button>
+                
+            </div>
+        </Dialog>
   </template>
   

@@ -324,10 +324,7 @@ const itemMenuAction = ref([
                 </div>
             </div>
           </div>
-          <div class="flex justify-content-end gap-2">
-              <Button type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
-              <Button type="button" label="Save" @click="visible = false"></Button>
-          </div>
+          
       </Dialog>
   </template>
   

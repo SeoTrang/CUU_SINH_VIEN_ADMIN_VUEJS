@@ -1,19 +1,19 @@
 <script setup>
 import AuthAPI from "@/services/api/AuthAPI";
 import store from "@/store/store";
-import AuthProvider from "@/views/pages/authentication/AuthProvider.vue";
 import logo from "@images/logo.svg?raw";
 import { useToast } from "primevue/usetoast";
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import AuthProvider from "./authentication/AuthProvider.vue";
 const toast = useToast();
 
 const router = useRouter();
 const route = useRoute();
 
 const form = ref({
-  email: "",
-  password: "",
+  email: "seotrangbh24@gmail.com",
+  password: "trang789",
 });
 
 const isPasswordVisible = ref(false);

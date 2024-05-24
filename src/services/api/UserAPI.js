@@ -4,7 +4,7 @@ import axios from '../../config/axiosBaseUrl/axios';
 const UserAPI = {
     getAllUser: async () => {
         try {
-            let users = await axios.get('/user/all-users')
+            let users = await axios.get('/admin/user/all-users')
             console.log(users.data);
             return users.data;
         } catch (error) {

@@ -1,6 +1,6 @@
 <script setup>
-import AuthProvider from '@/views/pages/authentication/AuthProvider.vue';
-import logo from '@images/logo.svg?raw';
+// import AuthProvider from '@/views/pages/authentication/AuthProvider.vue';
+// import logo from '@images/logo.svg?raw';
 
 const form = ref({
   username: '',
@@ -128,7 +128,7 @@ const isPasswordVisible = ref(false)
               cols="12"
               class="text-center"
             >
-              <AuthProvider />
+              <!-- <AuthProvider /> -->
             </VCol>
           </VRow>
         </VForm>

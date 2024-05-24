@@ -4,7 +4,7 @@ import axios from '../../config/axiosBaseUrl/axios';
 const ProfileAPI = {
     getProfile: async () => {
         try {
-            const result = await axios.get('/profile');
+            const result = await axios.get('/admin/profile');
             return result.data;
         } catch (error) {
             console.log(error);
